@@ -141,6 +141,44 @@ vue2-movie-app은 Vue2와 OMDb API를 사용하는 영화 검색 애플리케이
 목표 : 이 앱을 현재 생성한 NUXT-MOVIE-APP으로 마이그레이션 해야 함  
 추가로 vue2와 vue3의 차이도 체크해볼 것  
 
+# 폴더 구조
+기존의 src하위에 있는 컴포넌트 폴더가 nuxt에서는 루트에 있음  
+Logo.vue파일 덮어쓸건지 안 물어봐서 확인해보니 NuxtLogo.vue라는 이름으로 들어있음. (아 불안한데? ㅋㅋ 0.1올렸다고 또 뭔가 안되려나 ^^;)    
+RouterLink -> NuxtLink로 변경  
+routes대신 pages폴더로 처리. pages폴더에는 메인화면을 뜻하는 index.vue파일이 있는데 일단 삭제.
+routes에서 index.js제외하고 pages로 옮김. 메인화면 역할인 Home.vue -> index.vue로 변경
+About.vue -> about.vue, routes의 index.js의 path: '/movie/:id'를 참조하여 /pages/movie/_id.vue 생성  
+Movie.vue의 내용은 _id.vue로 옮기고 Movie.vue는 제거  
+NotFound.vue는 layout에 넣어줘야 한다는데 layout폴더가 없어서 만들어서 옮겨주고 error.vue로 리네임
+
+기존 routes에서 index.js로 관리해주던 경로를 nuxt에서는 pages안의 파일을 통해 자동으로 해준다는 것 같음  
+기존에 메인페이지에서 Header, RouterView, Footer를 제공하던 App.vue가 nuxt쪽에는 없고 대신 layout/default.vue가 공용컴포넌트로 쓰임  
+내용 복제 후 RouterView -> Nuxt로 변경  
+(기존 컴포넌트에서 RouterLink를 NuxtLink로 변경한 것처럼 RouterView는 Nuxt로 변경하고 기능차이는 없음)  
+plugins/loadIage.js플러그인도 같은 경로에 옮겨줌. 단, Vue.use(플러그인)을 main.js이 아닌 plugins/index.js에서 해주고 nuxt.config.js에 plugins부분에 '~/plugins/index.js' 추가.  
+
+loadImage.js의 document객체에 대한 예외처리 : 서버에서는 document를 사용하지 않으므로 별도 처리  
+scss폴더 복제 및 경로에 ~사용(nuxt에서는 ~이용시 node_dules/를 바로 참조)  
+
+기존 sass-loader설정처럼 공통 임포트를 해주기 위해 아래 의존성 추가 및 nuxt.config.js에 설정 추가  
+npm i -D @nuxtjs/style-resources  
+```js
+  modules: [
+    '@nuxtjs/style-resources'
+  ],
+
+  styleResources: {
+    scss: [
+      '~/scss/main.scss'
+    ]
+  },
+```
+store폴더 복제 및 index.js내용 제거(삭제는 하면 안됨. 파일이 있어야 store기능 활성화)  
+
+.barbelrc부터 계속해야 함
+07강 05:24부터
+
+
 # 이하 생성시 디폴트 내용
 ## Build Setup
 
