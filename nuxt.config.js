@@ -64,8 +64,7 @@ export default {
       ]
     }
   },
-
-  serverMiddlware: [
+  serverMiddleware: [
     { path: '/.netlify/functions/movie',
       handler: '~/server-middleware/movie.js'
     }
