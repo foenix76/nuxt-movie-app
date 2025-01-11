@@ -9,8 +9,12 @@ export default {
       { charset: 'utf-8' },
       { 'http-eqiv': 'X-UA-Compatible', 'content': 'IE=edge'},
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Nuxt Movie App' },
+      { hid: 'og:title', property: 'og:title', content: 'Nuxt Movie App / Search' },
+      { hid: 'og:description', property: 'og:description', content: 'The OMDb API is a RESTful web service to obtain movie information, all content and images on the site are contributed and maintained by our users.' },
+      { hid: 'og:image', property: 'og:image', content: 'https://heropy.blog/css/images/logo.png' },
+      { hid: 'og:url', property: 'og:url', content: process.env.CLIENT_URL }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -65,7 +69,7 @@ export default {
     }
   },
   serverMiddleware: [
-    { path: '/.netlify/functions/movie',
+    { path: '/api/movie',
       handler: '~/server-middleware/movie.js'
     }
   ]

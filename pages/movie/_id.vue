@@ -83,7 +83,11 @@ export default {
   components: {
     Loader
   },
-  data() {
+  async asyncData({store, params}) {
+    console.log('async asyncData');
+    await store.dispatch('movie/searchMovieWithId', {
+      id: params.id
+    })
     return {
       imageLoading: true
     }
@@ -95,9 +99,11 @@ export default {
     ])
   },
   created() {
+    /*
     this.$store.dispatch('movie/searchMovieWithId', {
       id: this.$route.params.id
     })
+      */
   },
   methods: {
     requestDiffSizeImage(url, size = 700) {
@@ -113,6 +119,18 @@ export default {
           this.imageLoading = false
         })
       return src
+    }
+  },
+  head() {
+    return {
+      meta: [
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Nuxt Movie App' },
+        { hid: 'og:title', property: 'og:title', content: this.theMovie.Title },
+        { hid: 'og:description', property: 'og:description', content: this.theMovie.Plot },
+        { hid: 'og:image', property: 'og:image', content: this.theMovie.Poster },
+        { hid: 'og:url', property: 'og:url', content: `${process.env.CLIENT_URL}${this.$route.fullPath}` }
+      ]
     }
   }
 }
