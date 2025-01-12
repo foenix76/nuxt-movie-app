@@ -385,4 +385,12 @@ CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받
   }
 ```
 
-이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"-> "6.x" 변경했다 아예 제거도 해봄
+이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"-> "6.x" 변경했다 아예 제거해봄.
+
+이 경고도 찝찝해서 다운그레이드
+```bash
+ WARN  postcss@8.2.13 is installed but ^7.0.32 is expected
+```
+
+그외 가이드가 필요할 경우 아래 URL 참고
+[https://www.koyeb.com/docs/deploy/nuxt](https://www.koyeb.com/docs/deploy/nuxt)
