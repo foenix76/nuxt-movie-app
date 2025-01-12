@@ -381,9 +381,8 @@ CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받
 일단 node와 npm버전을 package.json에 추가해줌
 ``` js
   "engines": {
-    "node": "14.16.0",
-    "npm": "6.14.11"
+    "node": "14.16.0"
   }
 ```
 
-이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"-> "6.x"로 변경함
+이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"-> "6.x" 변경했다 아예 제거도 해봄
