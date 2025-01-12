@@ -394,3 +394,4 @@ CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받
 
 그외 가이드가 필요할 경우 아래 URL 참고
 [https://www.koyeb.com/docs/deploy/nuxt](https://www.koyeb.com/docs/deploy/nuxt)
+[https://nuxt.com/deploy/koyeb](https://nuxt.com/deploy/koyeb)

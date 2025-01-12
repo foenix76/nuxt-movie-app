@@ -10,7 +10,10 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "start:koyeb": "node .output/server/index.mjs",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "axios": "^0.21.1",
