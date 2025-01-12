@@ -377,5 +377,13 @@ CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받
 사내전용 SI B/O프로젝트 등에서는 SEO가 중요하지 않겠지만 검색엔진으로 서비스 유입을 시켜야 하는 프로젝트의 경우 SSR은 선택이 아닌 필수로 보임
 
 # Heroku -> Koyeb 이전
-잘 빌드되고 구동에서 자꾸 실패하는중...
+잘 빌드되나 구동에서 자꾸 실패하는중...
+일단 node와 npm버전을 package.json에 추가해줌
+``` js
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
+  }
+```
 
+이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"로 변경함
