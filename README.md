@@ -10,7 +10,7 @@ nodejs를 여러버전 사용할 수 있게 해주는 nvm으로 nodejs를 강의
 [https://github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases)에서 받아 클린설치함.
 
 nodejs를 최신버전부터 전부 설치해보기로 마음먹고 하나씩 설치하면서 쭈욱 내려가는데 15.14.0부터 문제 발생.
-(나중에 재설치해보면서 알았는데 이 문제는 nvm을 스쿱으로 설치했던 인스톨본으로 설치했던 동일하다)
+(나중에 재설치해보면서 알았는데 이 문제는 nvm을 스쿱으로 설치했던 인스톨본으로 설치했던 동일해서 이하 설명은 scoop으로 nvm을 다시 설치하고 진행하였음)
 
 ```bash
 # 16.20.2 정상 설치
@@ -37,7 +37,7 @@ error installing 15.14.0: open C:\TEMP\nvm-npm-2944932808\npm-v7.7.6.zip: The sy
 ```
 오오.. 여기서 눈에 딱 띄는 문구!
 npm-v7.7.6.zip파일이 있어야 하는데 없다는 것.
-그런데 다른 TEMP폴더를 뒤져보니 15.14.0이 받아져는 있음
+그런데 다른 TEMP폴더를 뒤져보니 node는 15.14.0이 받아져는 있음
 ```bash
 # 일단 설치된 버전 확인
 nvm list
@@ -51,7 +51,7 @@ nvm list
     16.20.2
 
 # nodjs의 실행 파일 위치를 찾아보니 아래 폴더에 있음
-C:\Users\blabla\AppData\Local\nvm\
+C:\Users\blabla\scoop\apps\nvm\current\nodejs\node.exe
 
 # 아까 TEMP폴더에서 찾은 nodejs 15.14.0을 위 폴더로 카피
 nvm list
@@ -73,18 +73,16 @@ vscode의 터미널에서 파워쉘, cmd, git bash를 열어보니 3가지 창�
 [https://stackoverflow.com/questions/48595446/is-there-any-way-to-set-environment-variables-in-visual-studio-code](https://stackoverflow.com/questions/48595446/is-there-any-way-to-set-environment-variables-in-visual-studio-code)
 
 vscode가 시작할 때 지정된 환경을 상속받는다는 내용이 있어 일단 vscode의 내장터미널을 닫고 vscode를 종료하고 프로젝트 루트를 새 cmd창으로 열어 code . 으로 현재디렉토리에서 vscode를 실행시켰다.
-이후 터미널을 열어 nvm list 하니 두둥!!
+이후 터미널을 열어 nvm list 하니 두둥!! 드디어 환경변수를 제대로 가져온다.
+
+아니 근데 이렇게 별도 cmd창으로 열어서 vscode를 실행하기 전에 몇번이나 Kill All Terminal도 해보고 vscode도 재시작 시켜봤는데.. 그때는 적용이 안되고 별도 cmd창을 열고 code .으로 실행해야만 환경변수를 새로 가져오다니...
+아마 이 방법 외에는 시스템을 리부팅 했어야 적용이 됬을듯 하다
 ```bash
-nvm list
-    23.6.0
-    22.13.0
-    21.7.3
-    20.18.1
-    19.9.0
-    18.20.5
-    17.9.1
-    16.20.2
-    15.14.0
+echo %NVM_HOME%
+C:\Users\blabla\scoop\apps\nvm\current
+
+echo %NVM_SYMLINK%
+C:\Users\blabla\scoop\persist\nvm\nodejs\nodejs
 ```
 그런데 이게 끝이 아니었다.
 15.14.0의 nodejs에는 npm이 제대로 설치되지 않아 npm 실행이 불가. 아오 짜증나..
@@ -108,7 +106,7 @@ npm create-nuxt-app@v3.6.0 nuxt-movie-app
 .
 .
 .
-# 윈도우에서 테스트 안했구만 ㅎㅎ..
+# 윈도우에서 테스트 안했구만 ㅉㅉ..
 Trace: ReferenceError: ejs:1
  >> 1| <%_ if (isWindows === true) { _%>
     2| command_exists () {
@@ -218,71 +216,166 @@ Heroku 디플로이 완료. 우선 카드 등록하고 진행 후 디플로이 �
 참고로 환경변수 중 사이트 주소 셋팅시에 끝에 /를 붙히면 상세보기 화면에서 리프레시하면 앱이 크래시되는 증상이 있었음
 (수정하고 리디플로이 하니 해소됨)
 
-# 이하 기존 README.md의 내용
-## Build Setup
+# 이후 코드를 다시 돌려볼 일이 있어 빌드하는데 계속 오류 발생
+잠깐 리엑트 공부하고 오느라 node버전을 14.16.0 -> 16.17.1로 변경했었는데 package.json과 package-lock.json이 기존과 동일하면 빌드 될 줄 알았더니 안된다.
+node버전 변경했던걸 깜빡해서 한참을 package.json 만져보면서 쓸데없는 삽질을 했다.
+계속 gyp랑 core모듈 관련된 에러가 나길래 내가 뭔가를 잘못 만진 줄..
+여기서 나의 중요한 선입견 하나가 깨졌는데 package.json, package-lock.json까지 기존 프로젝트에서 가져오면 node, npm 버전이 달라도 빌드가 될거라고 상상했었는데 결론은 될 수도 있고 안될 수도 있다는 것이다.
+이 점을 잊지 말 것!
 
+이후 다시 nvm use 14.16.0으로 기존 버전으로 되돌리고 node_module폴더를 지우지도 않고 바로 npm i했더니 빌드가 성공하였다.
+(허나 찝찝해서 node_modules를 지우고 다시 설치함)
 ```bash
-# install dependencies
-$ npm install
+# 혹시 몰라 에러 로그 기록
+npm WARN deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility
+issues. Please, upgrade your dependencies to the actual version of core-js.
+npm ERR! code 1
+npm ERR! path C:\dev_study\nuxt-movie-app\node_modules\deasync
+npm ERR! command failed
+npm ERR! command C:\Windows\system32\cmd.exe /d /s /c C:\Temp\install-a6bc5d29.cmd
+npm ERR! gyp info it worked if it ends with ok
+npm ERR! gyp info using node-gyp@9.0.0
+npm ERR! gyp info using node@16.17.1 | win32 | x64
+npm ERR! gyp info find Python using Python version 3.13.1 found at "C:\Python313\python.exe"
+npm ERR! gyp ERR! find VS
+npm ERR! gyp ERR! find VS msvs_version not set from command line or npm config
+npm ERR! gyp ERR! find VS VCINSTALLDIR not set, not running in VS Command Prompt
+npm ERR! gyp ERR! find VS checking VS2022 (17.12.35527.113) found at:
+npm ERR! gyp ERR! find VS "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+npm ERR! gyp ERR! find VS - found "Visual Studio C++ core features"
+npm ERR! gyp ERR! find VS - found VC++ toolset: v143
+npm ERR! gyp ERR! find VS - missing any Windows SDK
+npm ERR! gyp ERR! find VS could not find a version of Visual Studio 2017 or newer to use
+npm ERR! gyp ERR! find VS looking for Visual Studio 2015
+npm ERR! gyp ERR! find VS - not found
+npm ERR! gyp ERR! find VS not looking for VS2013 as it is only supported up to Node.js 8
+npm ERR! gyp ERR! find VS
+npm ERR! gyp ERR! find VS **************************************************************
+npm ERR! gyp ERR! find VS You need to install the latest version of Visual Studio
+npm ERR! gyp ERR! find VS including the "Desktop development with C++" workload.
+npm ERR! gyp ERR! find VS For more information consult the documentation at:
+npm ERR! gyp ERR! find VS https://github.com/nodejs/node-gyp#on-windows
+npm ERR! gyp ERR! find VS **************************************************************
+npm ERR! gyp ERR! find VS
+npm ERR! gyp ERR! configure error
+npm ERR! gyp ERR! stack Error: Could not find any Visual Studio installation to use
+npm ERR! gyp ERR! stack     at VisualStudioFinder.fail (C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:122:47)
+npm ERR! gyp ERR! stack     at C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:75:16
+npm ERR! gyp ERR! stack     at VisualStudioFinder.findVisualStudio2013 (C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:363:14)
+npm ERR! gyp ERR! stack     at C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:71:14
+npm ERR! gyp ERR! stack     at C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:384:16
+npm ERR! gyp ERR! stack     at C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\util.js:54:7
+npm ERR! gyp ERR! stack     at C:\Users\blabla\scoop\persist\nvm\nodejs\v16.17.1\node_modules\npm\node_modules\node-gyp\lib\util.js:33:16
+npm ERR! gyp ERR! stack     at ChildProcess.exithandler (node:child_process:408:5)
+npm ERR! gyp ERR! stack     at ChildProcess.emit (node:events:513:28)
+npm ERR! gyp ERR! stack     at maybeClose (node:internal/child_process:1093:16)
+npm ERR! gyp ERR! System Windows_NT 10.0.19045
+npm ERR! gyp ERR! command "C:\\Users\\shadow\\scoop\\apps\\nvm\\current\\nodejs\\nodejs\\node.exe" "C:\\Users\\shadow\\scoop\\persist\\nvm\\nodejs\\v16.17.1\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js" "rebuild"
+npm ERR! gyp ERR! cwd C:\dev_study\nuxt-movie-app\node_modules\deasync
+npm ERR! gyp ERR! node -v v16.17.1
+npm ERR! gyp ERR! node-gyp -v v9.0.0
+npm ERR! gyp ERR! not ok
+npm ERR! Build failed
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\blabla\AppData\Local\npm-cache\_logs\2025-01-12T10_50_37_552Z-debug-0.log
+```
+예전 자바 개발할 때처럼 maven, gradle 생각이 나서 이 종속성에 대한 부분은 nodejs관련 툴로 개발을 할 때 알고 있어야 하는 문제 같아서 chatgpt에게 물어본 답변을 첨부한다.
+# Node.js 버전 변경 후 빌드 실패 원인과 해결 방법
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+Node.js 버전을 변경한 후 빌드가 실패하는 문제는 **Node.js 버전, 종속성의 호환성, 프로젝트 설정**과 관련이 있습니다. 아래에 가능한 원인과 해결 방법을 정리했습니다.
 
-# generate static project
-$ npm run generate
+---
+
+## 1. Node.js와 프로젝트 종속성의 호환성 문제
+- 일부 NPM 패키지는 특정 Node.js 버전에서만 정상적으로 작동합니다.
+- 예: Node.js 14.x → 16.x로 업그레이드 시 새로운 기능 또는 내부 API 변경으로 문제가 발생.
+
+---
+
+## 2. Node.js 주요 버전 간의 Breaking Changes
+Node.js의 주요 버전(예: 14 → 16) 업그레이드에서는 종종 Breaking Changes가 발생합니다.
+Node.js 16.x에서 문제가 될 수 있는 주요 변경 사항:
+- **V8 엔진 업그레이드**: V8 9.x 포함. 일부 JavaScript 기능이 변경되거나 제거됨.
+- **종속성 호환성**: `npm` 버전이 업그레이드되면서 종속성이 잘못 설치될 가능성.
+- **네이티브 모듈 API 변경**: `node-gyp`를 사용하는 패키지에서 재빌드 필요.
+
+---
+
+## 3. 패키지 락 파일 문제
+- `package-lock.json`은 Node.js 버전을 포함하지 않지만 **종속성의 해시 및 버전 정보**를 저장.
+- Node.js 버전 변경 시 일부 패키지가 새로 설치되거나 호환되지 않을 수 있음.
+
+### 해결 방법:
+`node_modules` 폴더 삭제 후 다시 패키지 설치
+```bash
+rm -rf node_modules
+npm install
+```
+## 4. 엔진 설정 문제
+- `package.json` 파일의 `"engines"` 필드에서 지원하는 Node.js와 NPM 버전을 명시:
+  ```json
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  }
+  ```
+- 지정된 버전과 다른 Node.js를 사용하면 빌드가 실패하거나 경고가 발생할 수 있습니다.
+
+---
+
+## 5. C++ 빌드 툴 또는 네이티브 모듈 문제
+- 일부 패키지(예: `node-sass`, `sharp`, `bcrypt`)는 네이티브 모듈을 사용하며, Node.js 버전에 따라 재컴파일해야 할 수 있습니다.
+- Node.js 업그레이드 후 네이티브 모듈을 재빌드:
+  ```bash
+  npm rebuild
+  ```
+
+---
+
+## 6. NPM 또는 Yarn의 문제
+- Node.js 버전 업그레이드 시, NPM 버전도 자동으로 업그레이드됩니다. 이로 인해 호환성 문제가 발생할 수 있습니다.
+
+### 해결 방법:
+1. **NPM 캐시 정리**:
+   ```bash
+   npm cache clean --force
+   ```
+2. 필요 시, NPM 버전을 프로젝트에 맞게 다운그레이드:
+   ```bash
+   npm install -g npm@6
+   ```
+
+---
+
+## 7. Node.js 버전 관리 (nvm 사용 추천)
+Node.js 프로젝트는 보통 특정 버전에 의존합니다. 다양한 Node.js 버전을 쉽게 전환하려면 **nvm (Node Version Manager)**를 사용하는 것이 좋습니다.
+
+### 설치 및 사용:
+```bash
+nvm install 14.16.0
+nvm use 14.16.0
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+---
 
-## Special Directories
+## 결론
+Node.js 버전을 변경했을 때 빌드 실패는 **호환성 문제** 또는 **환경 설정 불일치**에서 발생할 가능성이 높습니다. 아래 단계를 추천합니다:
+1. `node_modules` 폴더 삭제 및 재설치.
+2. 네이티브 모듈 재빌드 (`npm rebuild`).
+3. `package.json`에서 `engines` 설정 확인.
+4. `nvm`으로 Node.js 버전을 관리하여 프로젝트별로 정확한 버전을 사용.
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+문제가 계속 발생하면 에러 로그를 제공해 주시면 추가로 분석해 드릴게요! 😊
 
-### `assets`
+# 내가 이해한 결론
+nodejs의 버전에 따라 OS에 맞는 네이티브 모듈을 재컴파일 하기 위해 python과 node-gyp가 사용됨.
+nodejs의 버전이 바뀌어서 python의 버전과 c++컴파일러가 달라지면서 desync모듈 컴파일시에 오류가 난 것으로 추측됨.
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+# 후기
+CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받았음.
+사내전용 SI B/O프로젝트 등에서는 SEO가 중요하지 않겠지만 검색엔진으로 서비스 유입을 시켜야 하는 프로젝트의 경우 SSR은 선택이 아닌 필수로 보임
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+# Heroku -> Koyeb 이전
+잘 빌드되고 구동에서 자꾸 실패하는중...
 
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
