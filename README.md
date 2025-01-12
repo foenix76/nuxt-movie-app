@@ -5,9 +5,9 @@
 일단은 nuxt-movie-app 설치전 vue2-movie-app을 실행해보기 위한 환경 설정.  
 nodejs를 여러버전 사용할 수 있게 해주는 nvm으로 nodejs를 강의환경과 동일한 14.16.0으로 맞추기 위한 과정을 설명해본다.  
 
-기존에 scoop install mvn으로 설치한 mvn으로 node인스톨을 시도했으나 14.16.0인스톨시 에러 발생  
+기존에 scoop install nvm으로 설치한 nvm으로 node인스톨을 시도했으나 14.16.0인스톨시 에러 발생  
 
-좀 더 상위의 다른 버전을 인스톨 해보니 잘 됨. 일단 scoop으로 설치한 mvn이 의심가서 전부 삭제하고 nvm공식 배포처인
+좀 더 상위의 다른 버전을 인스톨 해보니 잘 됨. 일단 scoop으로 설치한 nvm이 의심가서 전부 삭제하고 nvm공식 배포처인
 [https://github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases)에서 받아 클린설치함  
 
 nodejs를 최신버전부터 전부 설치해보기로 마음먹고 하나씩 설치하면서 쭈욱 내려가는데 15.14.0부터 문제 발생  
