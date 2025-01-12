@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>
-      <span>OMDb API</span><br />
+      <span>OMDb API!</span><br />
       THE OPEN<br />
       MOVIE DATABASE
     </h1>
