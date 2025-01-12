@@ -212,9 +212,13 @@ npx browserslist@latest --update-db
 Why you should do it regularly:
 https://github.com/browserslist/browserslist#browsers-data-updating
 ```
+Heroku 디플로이 완료. 우선 카드 등록하고 진행 후 디플로이 확인하고 바로 해지
+(이후 FlyIO, Koyeb, Render, Vercel) 등 대체체 알아보고 옮길 예정
 
+참고로 환경변수 중 사이트 주소 셋팅시에 끝에 /를 붙히면 상세보기 화면에서 리프레시하면 앱이 크래시되는 증상이 있었음
+(수정하고 리디플로이 하니 해소됨)
 
-# 이하 생성시 디폴트 내용
+# 이하 기존 README.md의 내용
 ## Build Setup
 
 ```bash
