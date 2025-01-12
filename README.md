@@ -387,7 +387,7 @@ CSR -> SSR전환이 생각했던 것 보다는 어렵지 않다는 느낌을 받
 
 이후 또 실패하여 (https://www.npmjs.com/package/npm?activeTab=versions)[https://www.npmjs.com/package/npm?activeTab=versions]를 참고하여 npm버전을 "6.14.11" -> "6.14.18"-> "6.x" 변경했다 아예 제거해봄.
 
-이 경고도 찝찝해서 다운그레이드
+이 경고도 찝찝해서 다운그레이드 했다가 Koyeb빌드 실패로 원복
 ```bash
  WARN  postcss@8.2.13 is installed but ^7.0.32 is expected
 ```
