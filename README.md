@@ -467,6 +467,22 @@ trimTrailingWhitespace
 
 헤더가 안나와서 한참을 헤맸는데 layouts폴더에서 s빼먹음  
 
+# 결국 아무리 해봐도 github 배포로 안되서 docker로 시도
+아 그런데 이러면 매번 이미지 새로 만들어야 하는거 아닌가?    
+일단 이렇게라도 성공시키고 이후 단계를 생각하자 ^^;  
+```bash
+# dockerfile생성 후 이미지 빌드
+docker build . -t <YOUR_DOCKER_HUB_USERNAME>/my-nuxt-project
+# 로컬에서 실행
+docker run -p 3000:3000 <YOUR_DOCKER_HUB_USERNAME>/my-nuxt-project
+# 잘 접속되는거 확인하고 센트럴로 이미지 업로드
+docker push <YOUR_DOCKER_HUB_USERNAME>/my-nuxt-project
+```
+이렇게 만들어진 이미지를 koyeb에서 불러들여보니 놀랍게도 앞전의 고생이 허무할정도로 한방에 성공!  
+
+근데 오토 디플로이옵션이 없어 매번 새로 빋드하려면 귀찮으니 소스 카피 부분을 아예 npx degit으로 변경해봄  
+(근데 이미지 생성시에만 가져오는거라 소용없었고 컨테이너 기동시마다 소스를 새로 받아오게 하려면 ENTRYPOINT나 CMD로 가져오게 해야 하고 보다 간단하게 하려면 .sh파일로 처리하는 것이 편리)
+
 # 기존 마크다운 내용
 ## Vue2 Movie app 소개
 
